@@ -7,7 +7,7 @@ import com.vikanshu.newsyt.Constants.DATABASE_NAME
 import com.vikanshu.newsyt.api.NewsApiRequest
 import com.vikanshu.newsyt.db.AppDatabase
 import com.vikanshu.newsyt.db.ArticleDao
-import com.vikanshu.newsyt.repository.NewsRepositoryImpl
+import com.vikanshu.newsyt.repository.NewsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -70,5 +70,5 @@ object AppModule {
     fun providesNewsRepository(
         articleDao: ArticleDao,
         API: NewsApiRequest
-    ) = NewsRepositoryImpl(articleDao, API)
+    ) = NewsRepository(articleDao, API)
 }
