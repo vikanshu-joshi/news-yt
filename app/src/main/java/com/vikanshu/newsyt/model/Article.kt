@@ -4,14 +4,6 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class Article(
-    @SerializedName("source")
-    @Expose
-    var source: Source,
-
-    @SerializedName("author")
-    @Expose
-    var author: String,
-
     @SerializedName("title")
     @Expose
     var title: String,
@@ -20,19 +12,23 @@ data class Article(
     @Expose
     var description: String,
 
+    @SerializedName("content")
+    @Expose
+    var content: String,
+
     @SerializedName("url")
     @Expose
     var url: String,
 
-    @SerializedName("urlToImage")
+    @SerializedName("image")
     @Expose
-    var urlToImage: String,
+    var image: String,
 
     @SerializedName("publishedAt")
     @Expose
     var publishedAt: String,
 
-    @SerializedName("content")
+    @SerializedName("source")
     @Expose
-    var content: String,
+    var source: Source,
 )

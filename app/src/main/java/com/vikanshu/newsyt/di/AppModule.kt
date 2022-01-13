@@ -18,6 +18,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import javax.inject.Singleton
+import okhttp3.HttpUrl
 
 
 @Module
@@ -46,9 +47,15 @@ object AppModule {
     fun providesHttpClient(): OkHttpClient {
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor { chain ->
-            val request =
-                chain.request().newBuilder().addHeader("X-Api-Key", BuildConfig.API_KEY).build()
+            var request = chain.request()
             Timber.d("%s -> %s", request.method(), request.url().toString())
+            val originalUrl = request.url()
+            val url = originalUrl.newBuilder()
+                .addQueryParameter("token", BuildConfig.API_KEY)
+                .addQueryParameter("pageSize", "8")
+                .build()
+            val requestBuilder = request.newBuilder().url(url)
+            request = requestBuilder.build()
             chain.proceed(request)
         }
         return httpClient.build()
