@@ -5,9 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vikanshu.newsyt.Constants
 import com.vikanshu.newsyt.model.Article
+import com.vikanshu.newsyt.model.Filters
 import com.vikanshu.newsyt.repository.NewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,6 +17,8 @@ class NewsViewModel @Inject constructor(
     val repository: NewsRepository
 ) : ViewModel() {
 
+    private val DEFAULT_COUNTRY = "India"
+    private val DEFAULT_LANGUAGE = "English"
 
     private val headlines: Map<String, MutableLiveData<MutableList<Article>>> = (
             mapOf(
@@ -30,6 +34,22 @@ class NewsViewModel @Inject constructor(
             )
             )
 
+
+    private val searchData =
+        MutableLiveData(
+            Pair(
+                Filters(
+                    "",
+                    Constants.CATEGORIES.keys.toList()[0],
+                    1,
+                    "relevance",
+                    "",
+                    ""
+                ), mutableListOf<Article>()
+            )
+        )
+
+
     fun increasePageForCategory(category: String) {
         fetchHeadLines(category, (headlines[category]!!.value!!.size / 8) + 1, true)
     }
@@ -37,7 +57,6 @@ class NewsViewModel @Inject constructor(
     fun refreshData(category: String) {
         fetchHeadLines(category, 1, true)
     }
-
 
     fun getHeadLines(category: String): MutableLiveData<MutableList<Article>> {
         if (headlines[category]!!.value!!.isEmpty()) {
@@ -50,8 +69,8 @@ class NewsViewModel @Inject constructor(
         viewModelScope.launch {
             val response = repository.getArticles(
                 category,
-                "English",
-                "India",
+                DEFAULT_LANGUAGE,
+                DEFAULT_COUNTRY,
                 page
             )
             response?.let {
@@ -66,8 +85,34 @@ class NewsViewModel @Inject constructor(
     }
 
 
-    fun changeSearchQueryAndFilters() {
+    fun getSearchResults() = searchData
 
+
+    fun querySearch(filters: Filters) {
+        fetchSearchQuery(filters)
+    }
+
+    private fun fetchSearchQuery(filters: Filters) {
+        viewModelScope.launch {
+            filters.run {
+                val response = repository.searchArticles(
+                    query,
+                    topic,
+                    page,
+                    DEFAULT_LANGUAGE,
+                    DEFAULT_COUNTRY,
+                    sortBy,
+                    from,
+                    to
+                )
+                searchData.postValue(
+                    Pair(
+                        filters,
+                        response?.articles?.toMutableList() ?: mutableListOf()
+                    )
+                )
+            }
+        }
     }
 
 

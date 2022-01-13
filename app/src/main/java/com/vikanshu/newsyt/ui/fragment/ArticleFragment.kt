@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vikanshu.newsyt.R
@@ -19,7 +20,7 @@ import timber.log.Timber
 class ArticleFragment constructor(val tabName: String) : Fragment() {
 
     private lateinit var binding: FragmentArticleBinding
-    private val viewModel: NewsViewModel by viewModels()
+    private val viewModel: NewsViewModel by activityViewModels()
     private lateinit var adapter: ArticlesAdapter
 
     override fun onCreateView(

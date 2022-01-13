@@ -2,7 +2,9 @@ package com.vikanshu.newsyt.model
 
 data class Filters(
     var query: String,
-    var language: String,
-    var country: String,
-    var topic: String
+    var topic: String,
+    var page: Int,
+    var sortBy: String,
+    var from: String,
+    var to: String
 )

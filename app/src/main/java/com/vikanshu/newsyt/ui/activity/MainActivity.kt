@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.vikanshu.newsyt.R
 import com.vikanshu.newsyt.databinding.ActivityMainBinding
+import com.vikanshu.newsyt.model.Filters
 import com.vikanshu.newsyt.ui.viewmodels.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,12 +26,16 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var filters: Filters
     private val viewModel: NewsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         navController = nav_host.findNavController()
+        viewModel.getSearchResults().observe(this, {
+            filters = it.first
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -39,7 +44,11 @@ class MainActivity : AppCompatActivity() {
         searchView.onActionViewExpanded()
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                Timber.e(query.toString())
+                viewModel.querySearch(filters.apply {
+                    if (query != null) {
+                        this.query = query
+                    }
+                })
                 return false
             }
 
@@ -49,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             menu.findItem(R.id.menu_main_search),
             object : MenuItemCompat.OnActionExpandListener {
                 override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
-                    searchView.setQuery("qwerty", false)
+                    searchView.setQuery(filters.query, false)
                     navController.navigate(R.id.action_headlinesFragment_to_searchFragment)
                     return true
                 }

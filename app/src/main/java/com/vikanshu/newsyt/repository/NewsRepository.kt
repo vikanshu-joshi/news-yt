@@ -27,4 +27,28 @@ class NewsRepository @Inject constructor(
         return response.body()
     }
 
+
+    suspend fun searchArticles(
+        query: String,
+        topic: String,
+        page: Int,
+        language: String,
+        country: String,
+        sortBy: String,
+        from: String,
+        to: String
+    ): ResponseArticles? {
+        val response = API.searchArticles(
+            query,
+            "",
+            Constants.LANGUAGES[language]!!,
+            "",
+            page,
+            sortBy,
+            from,
+            to
+        )
+        return response.body()
+    }
+
 }

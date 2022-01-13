@@ -17,11 +17,11 @@ interface NewsApiRequest {
 
     @GET("search/?in=title")
     suspend fun searchArticles(
-        @Query("query") query: String,
+        @Query("q") query: String,
         @Query("topic") topic: String,
         @Query("lang") lang: String,
         @Query("country") country: String,
-        @Query("page") page: String,
+        @Query("page") page: Int,
         @Query("sortby") sortBy: String, // relevance, publishedAt
         @Query("from") from: String, // 2022-01-13T04:05:40Z
         @Query("to") to: String, // 2022-01-13T04:05:40Z
