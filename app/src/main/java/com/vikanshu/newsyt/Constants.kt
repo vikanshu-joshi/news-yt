@@ -3,7 +3,17 @@ package com.vikanshu.newsyt
 object Constants {
     const val DATABASE_NAME = "Articles_Database"
     val CATEGORIES =
-        arrayOf("business", "entertainment", "general", "health", "science", "sports", "technology")
+        arrayOf(
+            "breaking-news",
+            "world",
+            "nation",
+            "business",
+            "technology",
+            "entertainment",
+            "sports",
+            "science",
+            "health"
+        )
     val LANGUAGES = mapOf(
         "Arabic" to "ar",
         "German" to "de",

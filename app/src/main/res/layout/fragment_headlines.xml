@@ -1,17 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+        <import type="android.view.View" />
+
+        <variable
+            name="filters"
+            type="com.vikanshu.newsyt.model.Filters" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".ui.fragment.HeadlinesFragment">
 
-        <TextView
+        <HorizontalScrollView
+            android:id="@+id/hsv_filters"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="headlines" />
+            android:layout_height="wrap_content"
+            android:background="#dddddd"
+            android:scrollbars="none">
 
-    </FrameLayout>
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipSpacingHorizontal="12dp">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_filter_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@{`Category: ` + filters.topic}"
+                    app:chipBackgroundColor="@color/cardview_light_background"
+                    tools:text="Category: Sports" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_filter_country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{`Country: ` + filters.country}"
+                    app:chipBackgroundColor="@color/cardview_light_background"
+                    tools:text="Country: India" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_filter_language"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@{`Language: ` + filters.language}"
+                    app:chipBackgroundColor="@color/cardview_light_background"
+                    tools:text="Language: English" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </HorizontalScrollView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_headlines"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+
+    </LinearLayout>
 </layout>
