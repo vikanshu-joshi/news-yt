@@ -12,7 +12,7 @@ interface NewsApiRequest {
         @Query("topic") topic: String,
         @Query("lang") lang: String,
         @Query("country") country: String,
-        @Query("page") page: String
+        @Query("page") page: Int
     ): Response<ResponseArticles>
 
     @GET("search/?in=title")

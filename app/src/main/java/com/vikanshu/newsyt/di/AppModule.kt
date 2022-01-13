@@ -48,14 +48,14 @@ object AppModule {
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor { chain ->
             var request = chain.request()
-            Timber.d("%s -> %s", request.method(), request.url().toString())
             val originalUrl = request.url()
             val url = originalUrl.newBuilder()
                 .addQueryParameter("token", BuildConfig.API_KEY)
-                .addQueryParameter("pageSize", "8")
+                .addQueryParameter("pageSize", "10")
                 .build()
             val requestBuilder = request.newBuilder().url(url)
             request = requestBuilder.build()
+            Timber.d("%s -> %s", request.method(), url.toString())
             chain.proceed(request)
         }
         return httpClient.build()
