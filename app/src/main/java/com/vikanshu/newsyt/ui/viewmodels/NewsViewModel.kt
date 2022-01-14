@@ -7,9 +7,11 @@ import com.vikanshu.newsyt.Constants
 import com.vikanshu.newsyt.model.Article
 import com.vikanshu.newsyt.model.Filters
 import com.vikanshu.newsyt.repository.NewsRepository
+import com.vikanshu.newsyt.utility.NewsUtility
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,9 +44,9 @@ class NewsViewModel @Inject constructor(
                     "",
                     Constants.CATEGORIES.keys.toList()[0],
                     1,
-                    "relevance",
-                    "",
-                    ""
+                    Constants.SORTBY.keys.toList()[0],
+                    "1990/01/01",
+                    NewsUtility.getDate(System.currentTimeMillis())
                 ), mutableListOf<Article>()
             )
         )

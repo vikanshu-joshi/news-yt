@@ -2,6 +2,7 @@ package com.vikanshu.newsyt
 
 object Constants {
     const val DATABASE_NAME = "Articles_Database"
+    const val DEFAULT_FROM_DATE= "1990/01/01"
     val CATEGORIES =
         mapOf(
             "Breaking News" to "breaking-news",
@@ -13,6 +14,11 @@ object Constants {
             "Sports" to "sports",
             "Science" to "science",
             "Heath" to "health"
+        )
+    val SORTBY =
+        mapOf(
+            "Relevance" to "relevance",
+            "Published At" to "publishedAt"
         )
     val LANGUAGES = mapOf(
         "Arabic" to "ar",
