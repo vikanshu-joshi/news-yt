@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: ArticlesAdapter
@@ -55,6 +55,14 @@ class SearchFragment : Fragment() {
         binding.srlSearch.setOnRefreshListener {
             binding.srlSearch.isRefreshing = true
             viewModel.querySearch(filters)
+        }
+    }
+
+    override fun onClick(view: View?) {
+        view?.let {
+            when (it.id) {
+
+            }
         }
     }
 }

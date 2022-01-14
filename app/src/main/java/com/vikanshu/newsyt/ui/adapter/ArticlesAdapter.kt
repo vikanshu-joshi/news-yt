@@ -35,7 +35,7 @@ class ArticlesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (position == articles.size - 1) onLoadMore()
+//        if (position == articles.size - 1) onLoadMore() // TODO
         holder.binding.apply {
             article = articles[position]
             Glide.with(context)

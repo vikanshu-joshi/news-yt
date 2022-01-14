@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="filters"
             type="com.vikanshu.newsyt.model.Filters" />
@@ -12,7 +13,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:orientation="vertical"
         tools:context=".ui.fragment.ArticleFragment">
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#dddddd"
+            android:paddingHorizontal="10dp">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_filter_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`Search: ` + filters.query}"
+                app:chipBackgroundColor="@color/cardview_light_background" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_filter_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`Category: ` + filters.topic}"
+                app:chipBackgroundColor="@color/cardview_light_background" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_filter_sortby"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`Sort By: ` + filters.sortBy}"
+                app:chipBackgroundColor="@color/cardview_light_background" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_filter_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`From: ` + filters.from}"
+                app:chipBackgroundColor="@color/cardview_light_background" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_filter_to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`To: ` + filters.to}"
+                app:chipBackgroundColor="@color/cardview_light_background" />
+
+        </com.google.android.material.chip.ChipGroup>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/srl_search"
@@ -22,7 +67,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_search"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
