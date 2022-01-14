@@ -13,6 +13,8 @@ import com.vikanshu.newsyt.databinding.RvArticleBinding
 import com.vikanshu.newsyt.model.Article
 import com.vikanshu.newsyt.utility.ArticleDiffUtil
 import com.vikanshu.newsyt.utility.NewsUtility
+import com.thefinestartist.finestwebview.FinestWebView
+
 
 class ArticlesAdapter(
     val context: Context,
@@ -44,6 +46,9 @@ class ArticlesAdapter(
                 .error(R.drawable.ic_sync_problem)
                 .into(ivArticle)
             tvDate.text = NewsUtility.formatDate(articles[position].publishedAt)
+            root.setOnClickListener {
+                FinestWebView.Builder(context).show(articles[position].url)
+            }
         }
     }
 
