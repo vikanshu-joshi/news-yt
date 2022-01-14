@@ -11,7 +11,7 @@ object NewsUtility {
     }
 
     fun formatSearchNewsDate(date: String): String { // 2022-08-16
-        return parseDateFormat(date, "yyyy-MM-dd", "yyyy-MM-dd'T'HH:mm:ss'Z'") ?: ""
+        return parseDateFormat(date, "yyyy/MM/dd", "yyyy-MM-dd'T'HH:mm:ss'Z'") ?: ""
     }
 
 
