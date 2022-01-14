@@ -15,8 +15,7 @@
         <activity
             android:name=".ui.activity.SavedArticlesActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".ui.activity.MainActivity" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true"

@@ -2,6 +2,7 @@ package com.vikanshu.newsyt.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
@@ -14,6 +15,7 @@ import com.vikanshu.newsyt.model.Source
 import com.vikanshu.newsyt.ui.adapter.ArticlesAdapter
 import com.vikanshu.newsyt.ui.viewmodels.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class SavedArticlesActivity : AppCompatActivity() {
@@ -27,10 +29,12 @@ class SavedArticlesActivity : AppCompatActivity() {
         binding = ActivitySavedArticlesBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.title = "Saved Articles"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         adapter = ArticlesAdapter(
             this,
+            android.R.drawable.ic_menu_delete,
             {},
-            onSave = { it, position ->
+            onIconClicked = { it, position ->
                 viewModel.deleteArticleFromDB(
                     Article(
                         it.source.name,
@@ -67,6 +71,13 @@ class SavedArticlesActivity : AppCompatActivity() {
                 )
             })
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroy() {

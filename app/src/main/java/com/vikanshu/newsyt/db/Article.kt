@@ -9,6 +9,8 @@ data class Article(
     @ColumnInfo(name = "source")
     var source: String,
     @ColumnInfo(name = "title")
+
+    @PrimaryKey(autoGenerate = false)
     var title: String,
     @ColumnInfo(name = "description")
     var description: String,
@@ -20,7 +22,4 @@ data class Article(
     var publishedAt: String,
     @ColumnInfo(name = "content")
     var content: String
-) {
-    @PrimaryKey(autoGenerate = true)
-    var key = 0
-}
+)

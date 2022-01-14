@@ -40,6 +40,7 @@ class SearchFragment : Fragment(), View.OnClickListener {
         binding = FragmentSearchBinding.inflate(layoutInflater)
         adapter = ArticlesAdapter(
             requireContext(),
+            android.R.drawable.btn_star,
             onLoadMore = {
                 viewModel.querySearch(
                     filters.apply {
@@ -47,7 +48,7 @@ class SearchFragment : Fragment(), View.OnClickListener {
                     }
                 )
             },
-            onSave = { it, position ->
+            onIconClicked = { it, position ->
                 viewModel.saveArticleInDB(
                     Article(
                         it.source.name,

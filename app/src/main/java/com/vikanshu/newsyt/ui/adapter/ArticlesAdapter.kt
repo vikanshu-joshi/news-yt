@@ -22,8 +22,9 @@ import timber.log.Timber
 
 class ArticlesAdapter(
     val context: Context,
+    val icon: Int?,
     val onLoadMore: () -> Unit,
-    val onSave: (Article, Int) -> Unit
+    val onIconClicked: (Article, Int) -> Unit
 ) : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
 
     private val articles = mutableListOf<Article>()
@@ -54,8 +55,14 @@ class ArticlesAdapter(
             root.setOnClickListener {
                 FinestWebView.Builder(context).webViewSupportZoom(true).show(articles[position].url)
             }
-            ivStar.setOnClickListener {
-                onSave(articles[position], position)
+
+            if (icon == null) {
+                ivStar.visibility = View.GONE
+            } else {
+                ivStar.setImageDrawable(ContextCompat.getDrawable(context, icon))
+                ivStar.setOnClickListener {
+                    onIconClicked(articles[position], position)
+                }
             }
         }
     }

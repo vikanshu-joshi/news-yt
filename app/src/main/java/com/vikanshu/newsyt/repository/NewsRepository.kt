@@ -61,7 +61,7 @@ class NewsRepository @Inject constructor(
     }
 
     suspend fun removeArticleFromDB(article: Article) {
-        articleDao.deleteArticle(article)
+        articleDao.deleteArticle(article.title)
     }
 
 }

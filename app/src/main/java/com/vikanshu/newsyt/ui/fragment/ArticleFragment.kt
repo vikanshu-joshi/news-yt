@@ -34,10 +34,11 @@ class ArticleFragment constructor(val tabName: String) : Fragment() {
         binding = FragmentArticleBinding.inflate(layoutInflater)
         adapter = ArticlesAdapter(
             requireContext(),
+            android.R.drawable.btn_star,
             onLoadMore = {
                 viewModel.increasePageForCategory(tabName)
             },
-            onSave = { it, position ->
+            onIconClicked = { it, position ->
                 viewModel.saveArticleInDB(
                     Article(
                         it.source.name,
