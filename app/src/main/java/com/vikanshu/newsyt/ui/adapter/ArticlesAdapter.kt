@@ -3,7 +3,9 @@ package com.vikanshu.newsyt.ui.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -14,11 +16,14 @@ import com.vikanshu.newsyt.model.Article
 import com.vikanshu.newsyt.utility.ArticleDiffUtil
 import com.vikanshu.newsyt.utility.NewsUtility
 import com.thefinestartist.finestwebview.FinestWebView
+import com.vikanshu.newsyt.ui.viewmodels.NewsViewModel
+import timber.log.Timber
 
 
 class ArticlesAdapter(
     val context: Context,
-    val onLoadMore: () -> Unit
+    val onLoadMore: () -> Unit,
+    val onSave: (Article, Int) -> Unit
 ) : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
 
     private val articles = mutableListOf<Article>()
@@ -47,13 +52,20 @@ class ArticlesAdapter(
                 .into(ivArticle)
             tvDate.text = NewsUtility.formatDate(articles[position].publishedAt)
             root.setOnClickListener {
-                FinestWebView.Builder(context).show(articles[position].url)
+                FinestWebView.Builder(context).webViewSupportZoom(true).show(articles[position].url)
+            }
+            ivStar.setOnClickListener {
+                onSave(articles[position], position)
             }
         }
     }
 
     override fun getItemCount() = articles.size
 
+    fun removeItem(position: Int) {
+        this.articles.removeAt(position)
+        this.notifyItemRemoved(position)
+    }
 
     fun submitList(articles: List<Article>) {
         val diffUtil = ArticleDiffUtil(this.articles, articles)

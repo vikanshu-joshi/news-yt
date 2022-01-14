@@ -9,6 +9,7 @@ import com.vikanshu.newsyt.model.Filters
 import com.vikanshu.newsyt.repository.NewsRepository
 import com.vikanshu.newsyt.utility.NewsUtility
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
@@ -22,6 +23,7 @@ class NewsViewModel @Inject constructor(
     private val DEFAULT_COUNTRY = "India"
     private val DEFAULT_LANGUAGE = "English"
 
+    val saved = MutableLiveData<MutableList<com.vikanshu.newsyt.db.Article>>(mutableListOf())
     private val headlines: Map<String, MutableLiveData<MutableList<Article>>> = (
             mapOf(
                 Constants.CATEGORIES.keys.toList()[0] to MutableLiveData(mutableListOf()),
@@ -35,8 +37,6 @@ class NewsViewModel @Inject constructor(
                 Constants.CATEGORIES.keys.toList()[8] to MutableLiveData(mutableListOf())
             )
             )
-
-
     private val searchData =
         MutableLiveData(
             Pair(
@@ -52,6 +52,9 @@ class NewsViewModel @Inject constructor(
         )
 
 
+    /**
+     * headlines related methods
+     */
     fun increasePageForCategory(category: String) {
         fetchHeadLines(category, (headlines[category]!!.value!!.size / 8) + 1, true)
     }
@@ -87,8 +90,10 @@ class NewsViewModel @Inject constructor(
     }
 
 
+    /**
+     * search related methods
+     */
     fun getSearchResults() = searchData
-
 
     fun querySearch(filters: Filters) {
         fetchSearchQuery(filters)
@@ -117,5 +122,33 @@ class NewsViewModel @Inject constructor(
         }
     }
 
+
+    /**
+     * db related methods
+     */
+    fun saveArticleInDB(article: com.vikanshu.newsyt.db.Article) {
+        viewModelScope.launch {
+            repository.saveArticleInDB(article)
+        }
+    }
+
+    fun deleteArticleFromDB(article: com.vikanshu.newsyt.db.Article) {
+        viewModelScope.launch {
+            repository.removeArticleFromDB(article)
+        }
+    }
+
+    fun getSavedArticles(): MutableLiveData<MutableList<com.vikanshu.newsyt.db.Article>> {
+        if (saved.value!!.isEmpty()) {
+            fetchAllSavedArticles()
+        }
+        return saved
+    }
+
+    private fun fetchAllSavedArticles() {
+        viewModelScope.launch {
+            saved.postValue(repository.getAllArticlesFromDB().toMutableList())
+        }
+    }
 
 }

@@ -9,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vikanshu.newsyt.Constants
 import com.vikanshu.newsyt.R
 import com.vikanshu.newsyt.databinding.FragmentSearchBinding
+import com.vikanshu.newsyt.db.Article
 import com.vikanshu.newsyt.model.Filters
 import com.vikanshu.newsyt.ui.adapter.ArticlesAdapter
 import com.vikanshu.newsyt.ui.viewmodels.NewsViewModel
@@ -36,14 +38,30 @@ class SearchFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchBinding.inflate(layoutInflater)
-        adapter = ArticlesAdapter(requireContext(),
+        adapter = ArticlesAdapter(
+            requireContext(),
             onLoadMore = {
                 viewModel.querySearch(
                     filters.apply {
                         page += 1
                     }
                 )
-            })
+            },
+            onSave = { it, position ->
+                viewModel.saveArticleInDB(
+                    Article(
+                        it.source.name,
+                        it.title,
+                        it.description,
+                        it.url,
+                        it.image,
+                        it.publishedAt,
+                        it.content
+                    )
+                )
+                Toast.makeText(requireContext(), "Saved", Toast.LENGTH_LONG).show()
+            }
+        )
         return binding.root
     }
 

@@ -3,7 +3,7 @@ package com.vikanshu.newsyt.utility
 import androidx.recyclerview.widget.DiffUtil
 import com.vikanshu.newsyt.model.Article
 
-class ArticleDiffUtil (
+class ArticleDiffUtil(
     val oldList: List<Article>,
     val newList: List<Article>
 ) : DiffUtil.Callback() {
@@ -16,4 +16,5 @@ class ArticleDiffUtil (
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
         oldList[oldItemPosition].image == newList[newItemPosition].image
+
 }

@@ -2,6 +2,7 @@ package com.vikanshu.newsyt.repository
 
 import com.vikanshu.newsyt.Constants
 import com.vikanshu.newsyt.api.NewsApiRequest
+import com.vikanshu.newsyt.db.Article
 import com.vikanshu.newsyt.db.ArticleDao
 import com.vikanshu.newsyt.model.ResponseArticles
 import com.vikanshu.newsyt.utility.NewsUtility
@@ -40,27 +41,27 @@ class NewsRepository @Inject constructor(
         from: String,
         to: String
     ): ResponseArticles? {
-        Timber.e(
-            query,
-            Constants.CATEGORIES[category]!!,
-            Constants.LANGUAGES[language]!!,
-            "India",
-            page,
-            Constants.SORTBY[sortBy]!!,
-            NewsUtility.formatSearchNewsDate(from),
-            NewsUtility.formatSearchNewsDate(to)
-        )
         val response = API.searchArticles(
             query,
             Constants.CATEGORIES[category]!!,
             Constants.LANGUAGES[language]!!,
-            "India",
+            Constants.COUNTRIES[country]!!,
             page,
             Constants.SORTBY[sortBy]!!,
             NewsUtility.formatSearchNewsDate(from),
             NewsUtility.formatSearchNewsDate(to)
         )
         return response.body()
+    }
+
+    suspend fun getAllArticlesFromDB() = articleDao.getAllArticles()
+
+    suspend fun saveArticleInDB(article: Article) {
+        articleDao.insertArticle(article)
+    }
+
+    suspend fun removeArticleFromDB(article: Article) {
+        articleDao.deleteArticle(article)
     }
 
 }

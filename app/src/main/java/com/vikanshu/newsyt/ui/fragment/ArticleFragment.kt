@@ -1,15 +1,18 @@
 package com.vikanshu.newsyt.ui.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vikanshu.newsyt.R
 import com.vikanshu.newsyt.databinding.FragmentArticleBinding
+import com.vikanshu.newsyt.db.Article
 import com.vikanshu.newsyt.ui.adapter.ArticlesAdapter
 import com.vikanshu.newsyt.ui.adapter.ShimmerAdapter
 import com.vikanshu.newsyt.ui.viewmodels.NewsViewModel
@@ -23,6 +26,7 @@ class ArticleFragment constructor(val tabName: String) : Fragment() {
     private val viewModel: NewsViewModel by activityViewModels()
     private lateinit var adapter: ArticlesAdapter
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +36,20 @@ class ArticleFragment constructor(val tabName: String) : Fragment() {
             requireContext(),
             onLoadMore = {
                 viewModel.increasePageForCategory(tabName)
+            },
+            onSave = { it, position ->
+                viewModel.saveArticleInDB(
+                    Article(
+                        it.source.name,
+                        it.title,
+                        it.description,
+                        it.url,
+                        it.image,
+                        it.publishedAt,
+                        it.content
+                    )
+                )
+                Toast.makeText(requireContext(), "Saved", Toast.LENGTH_LONG).show()
             }
         )
         return binding.root
@@ -53,9 +71,6 @@ class ArticleFragment constructor(val tabName: String) : Fragment() {
                 binding.srlArticles.isRefreshing = false
             }
             adapter.submitList(it)
-//            for (i in it) {
-//                Timber.e(i.title.substring(0, 20))
-//            }
         })
     }
 }

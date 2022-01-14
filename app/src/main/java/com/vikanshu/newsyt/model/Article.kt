@@ -31,4 +31,5 @@ data class Article(
     @SerializedName("source")
     @Expose
     var source: Source,
-)
+) {
+}

@@ -8,15 +8,13 @@ import androidx.room.PrimaryKey
 data class Article(
     @ColumnInfo(name = "source")
     var source: String,
-    @ColumnInfo(name = "author")
-    var author: String,
     @ColumnInfo(name = "title")
     var title: String,
     @ColumnInfo(name = "description")
     var description: String,
     @ColumnInfo(name = "url")
     var url: String,
-    @ColumnInfo(name = "urlToImage")
+    @ColumnInfo(name = "image")
     var urlToImage: String,
     @ColumnInfo(name = "publishedAt")
     var publishedAt: String,

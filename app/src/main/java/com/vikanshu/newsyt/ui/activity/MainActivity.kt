@@ -2,6 +2,7 @@ package com.vikanshu.newsyt.ui.activity
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -69,5 +70,12 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_main_saved) {
+            startActivity(Intent(this, SavedArticlesActivity::class.java))
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
