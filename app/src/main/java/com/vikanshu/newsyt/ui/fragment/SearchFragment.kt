@@ -173,4 +173,9 @@ class SearchFragment : Fragment(), View.OnClickListener {
         )
         dialog.show()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.getSearchResults().removeObservers(this)
+    }
 }

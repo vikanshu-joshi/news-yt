@@ -74,4 +74,9 @@ class ArticleFragment constructor(val tabName: String) : Fragment() {
             adapter.submitList(it)
         })
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.getSavedArticles().removeObservers(this)
+    }
 }

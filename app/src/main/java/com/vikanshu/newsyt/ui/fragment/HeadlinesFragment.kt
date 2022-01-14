@@ -31,6 +31,7 @@ class HeadlinesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.pagerHeadlines.adapter = adapter
+        binding.pagerHeadlines.offscreenPageLimit = 1
         TabLayoutMediator(binding.tabHeadlines, binding.pagerHeadlines) { tab, position ->
             tab.text = Constants.CATEGORIES.keys.toList()[position]
         }.attach()

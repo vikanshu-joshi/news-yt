@@ -83,5 +83,6 @@ class SavedArticlesActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.saved.postValue(mutableListOf())
+        viewModel.getSavedArticles().removeObservers(this)
     }
 }
